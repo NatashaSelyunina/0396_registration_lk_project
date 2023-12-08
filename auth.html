@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+      integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <title>Форма авторизации</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=KOeOOIUZAhUWjItjb3fIMPP8T3ufYfJp06vf6s5aEno9YSkg3vC_SbdN_4CZeWGmoc3SGGNCPcCENXAX4ZDgNw" charset="UTF-8"></script><style>
+      body {
+        font-family: "Play", sans-serif;
+        background-color: rgb(246, 238, 226);
+      }
+      h1 {
+        margin-top: 5rem;
+        color: #dc3545;
+        font-weight: 700;
+      }
+      .input-group-text {
+        background-color: #dc3545;
+        color: white;
+      }
+      form {
+        transform: translateY(0px);
+        filter: drop-shadow(1px 2px 4px rgb(234, 233, 233));
+      }
+      form:focus-within {
+        transform: translateY(-4px);
+        filter: drop-shadow(1px 2px 4px rgb(186, 185, 185));
+      }
+      .eye {
+        cursor: pointer;
+        color: #dc3545;
+        font-size: 38px;
+        position: absolute;
+        right: 10px;
+        top: 5px;
+      }
+      .eye:hover {
+        color: hsl(354, 70%, 40%);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="text-center text-danger">Авторизация</h1>
+    <section class="col-5 mx-auto mt-5">
+      <form onsubmit="sendForm(this); return false;">
+        <div class="input-group mb-5">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="material-icons"> alternate_email </span>
+            </div>
+          </div>
+          <input
+            type="email"
+            class="form-control form-control-lg"
+            placeholder="E-mail"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='E-mail'"
+            autocomplete="email"
+            minlength="5"
+            required
+            name="email"
+          />
+        </div>
+        <div class="input-group mb-5">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="material-icons"> lock </span>
+            </div>
+          </div>
+          <input
+            type="password"
+            class="form-control form-control-lg"
+            placeholder="Пароль"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='Пароль'"
+            autocomplete="new-password"
+            minlength="3"
+            required
+            id="formPass"
+            name="pass"
+            style="border-radius: 0.3rem"
+          />
+          <span
+            class="material-icons eye"
+            onmousedown="formPass.type='text'; this.nextElementSibling.hidden=false; this.hidden=true;"
+          >
+            visibility
+          </span>
+          <span
+            class="material-icons eye"
+            hidden
+            onmouseup="formPass.type='password'; this.previousElementSibling.hidden=false; this.hidden=true;"
+          >
+            visibility_off
+          </span>
+        </div>
+        <p id="info" style="color: red; margin-left: 2rem"></p>
+        <input type="submit" value="Войти" class="btn btn-danger btn-block btn-lg" />
+      </form>
+    </section>
+    <p><a href="register.html">Регистрация</a></p>
+    <script>
+      async function sendForm(form) {
+        let response = await fetch("php/auth_obr.php", {
+          method: "POST",
+          body: new FormData(form),
+        });
+        let result = await response.text();
+        if (result == "ok") {
+         location.href = "lk.php";
+        } else if (result == "not_found") {
+          info.innerText = "Логин или пароль неверный!";
+        }
+      }
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
